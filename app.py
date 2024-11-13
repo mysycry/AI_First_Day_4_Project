@@ -24,33 +24,61 @@ st.set_page_config(page_title="FreightMate™ - Your Freight Comparison Speciali
 st.markdown("""
 <style>
     body {
-        color: #333333;
-        background-color: #f0f0f0;
+        color: #ffffff;
+        background: linear-gradient(135deg, #8B0000, #2B0000);
     }
     .stApp {
-        background-image: url('https://freight-images.public.blob.vercel-storage.com/freight-background-NzI4MzM0.jpg');
+        background: linear-gradient(135deg, rgba(139, 0, 0, 0.9), rgba(43, 0, 0, 0.9)), url('https://images.unsplash.com/photo-1720538531229-46862d8f0381?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+        background-attachment: fixed;
     }
     .stButton>button {
         color: #ffffff;
-        background-color: #0066cc;
-        border: 2px solid #004c99;
+        background-color: #8B0000;
+        border: 2px solid #600000;
+        transition: all 0.3s ease;
     }
-    .stTextInput>div>div>input {
+    .stButton>button:hover {
+        background-color: #600000;
+        border-color: #400000;
+    }
+    .stTextInput>div>div>input, .stSelectbox>div>div>div {
         color: #333333;
-        background-color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 5px;
     }
     .stTextArea>div>div>textarea {
         color: #333333;
-        background-color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 5px;
     }
     .card {
-        background-color: rgba(255, 255, 255, 0.8);
-        border-radius: 10px;
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
         padding: 20px;
         margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    }
+    @media (max-width: 768px) {
+        .card {
+            padding: 15px;
+        }
+    }
+    h1, h2, h3 {
+        color: #ffffff;
+    }
+    .stAlert {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        border-radius: 10px;
     }
 </style>
 """, unsafe_allow_html=True)
