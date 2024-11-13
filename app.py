@@ -3,13 +3,6 @@ import openai
 import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
-from langchain.chat_models import ChatOpenAI
-from langchain.document_loaders import CSVLoader
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.prompts import ChatPromptTemplate
-from langchain.vectorstores import Chroma
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.runnables import RunnableLambda, RunnablePassthrough
 
 # Load environment variables
 load_dotenv()
@@ -25,41 +18,56 @@ st.markdown("""
 <style>
     body {
         color: #ffffff;
-        background: linear-gradient(135deg, #8B0000, #2B0000);
+        background-color: #0f172a;
     }
     .stApp {
-        background: linear-gradient(135deg, rgba(139, 0, 0, 0.9), rgba(43, 0, 0, 0.9)), url('https://images.unsplash.com/photo-1720538531229-46862d8f0381?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+        background-image: url('https://images.unsplash.com/photo-1720538531229-46862d8f0381?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
     }
+    .main-title {
+        font-size: 3rem;
+        font-weight: bold;
+        text-align: center;
+        padding: 2rem 0;
+        background-color: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        margin-bottom: 2rem;
+    }
     .stButton>button {
         color: #ffffff;
-        background-color: #8B0000;
-        border: 2px solid #600000;
+        background-color: #1e40af;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        font-weight: 600;
         transition: all 0.3s ease;
     }
     .stButton>button:hover {
-        background-color: #600000;
-        border-color: #400000;
+        background-color: #1e3a8a;
     }
     .stTextInput>div>div>input, .stSelectbox>div>div>div {
-        color: #333333;
+        color: #1e293b;
         background-color: rgba(255, 255, 255, 0.9);
-        border-radius: 5px;
+        border-radius: 0.375rem;
+        border: 1px solid #cbd5e1;
     }
     .stTextArea>div>div>textarea {
-        color: #333333;
+        color: #1e293b;
         background-color: rgba(255, 255, 255, 0.9);
-        border-radius: 5px;
+        border-radius: 0.375rem;
+        border: 1px solid #cbd5e1;
+        min-height: 100px;
     }
     .card {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: rgba(15, 23, 42, 0.8);
         backdrop-filter: blur(10px);
         border-radius: 15px;
-        padding: 20px;
-        margin-bottom: 20px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease;
     }
@@ -69,7 +77,11 @@ st.markdown("""
     }
     @media (max-width: 768px) {
         .card {
-            padding: 15px;
+            padding: 1rem;
+        }
+        .main-title {
+            font-size: 2rem;
+            padding: 1rem 0;
         }
     }
     h1, h2, h3 {
@@ -78,7 +90,17 @@ st.markdown("""
     .stAlert {
         background-color: rgba(255, 255, 255, 0.2);
         color: #ffffff;
-        border-radius: 10px;
+        border-radius: 0.375rem;
+    }
+    .query-box {
+        background-color: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-top: 2rem;
+    }
+    .query-input {
+        margin-bottom: 1rem;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -91,7 +113,7 @@ def load_data():
 df = load_data()
 
 # Title
-st.title('FreightMate™ - Your Freight Comparison Specialist')
+st.markdown('<h1 class="main-title">FreightMate™ - Your Freight Comparison Specialist</h1>', unsafe_allow_html=True)
 
 # Navigation menu
 menu = ["Home", "Freight Finder", "Rate Calculator", "About"]
@@ -159,14 +181,17 @@ def get_rag_response(query):
     )
     return response.choices[0].message['content']
 
-st.markdown('<div class="card">', unsafe_allow_html=True)
+st.markdown('<div class="query-box">', unsafe_allow_html=True)
 st.subheader("Ask FreightMate™")
-user_query = st.text_input("Ask about freight rates and scheduling:")
-if user_query:
-    with st.spinner("FreightMate™ is thinking..."):
-        rag_response = get_rag_response(user_query)
-    st.write("FreightMate's Response:")
-    st.write(rag_response)
+user_query = st.text_area("Ask about freight rates and scheduling:", height=100, key="query-input")
+if st.button("Submit Question", key="submit-button"):
+    if user_query:
+        with st.spinner("FreightMate™ is thinking..."):
+            rag_response = get_rag_response(user_query)
+        st.write("FreightMate's Response:")
+        st.write(rag_response)
+    else:
+        st.warning("Please enter a question before submitting.")
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Footer
