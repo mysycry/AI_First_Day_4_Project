@@ -10,11 +10,9 @@ load_dotenv()
 # Set up OpenAI API
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# Initialize session state for dark mode and active tab
+# Initialize session state for dark mode
 if 'dark_mode' not in st.session_state:
     st.session_state.dark_mode = False
-if 'active_tab' not in st.session_state:
-    st.session_state.active_tab = "Home"
 
 # Function to toggle dark mode
 def toggle_dark_mode():
@@ -40,18 +38,23 @@ st.markdown(f"""
         background-repeat: no-repeat;
         background-attachment: fixed;
     }}
-    .main-title {{
-        font-size: 2.5rem;
+    .main-header {
+        height: 33vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1720538531229-46862d8f0381?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+        background-size: cover;
+        background-position: center;
+        margin-bottom: 2rem;
+    }
+    .main-title {
+        font-size: 3.5rem;
         font-weight: 700;
         text-align: center;
-        padding: 1.5rem 0;
-        background-color: {'rgba(15, 23, 42, 0.8)' if st.session_state.dark_mode else 'rgba(248, 250, 252, 0.8)'};
-        backdrop-filter: blur(10px);
-        border-radius: 12px;
-        margin-bottom: 2rem;
-        color: {'#ffffff' if st.session_state.dark_mode else '#1e293b'};
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }}
+        color: #ffffff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
     .stButton>button {{
         color: {'#ffffff' if st.session_state.dark_mode else '#1e293b'};
         background-color: {'#3b82f6' if st.session_state.dark_mode else '#e0f2fe'};
@@ -86,31 +89,6 @@ st.markdown(f"""
         transform: translateY(-5px);
         box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
     }}
-    .tabs {{
-        display: flex;
-        justify-content: center;
-        margin-bottom: 2rem;
-        background-color: {'rgba(15, 23, 42, 0.6)' if st.session_state.dark_mode else 'rgba(248, 250, 252, 0.6)'};
-        padding: 0.5rem;
-        border-radius: 12px;
-        backdrop-filter: blur(5px);
-    }}
-    .tab {{
-        padding: 0.5rem 1rem;
-        margin: 0 0.5rem;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-weight: 600;
-    }}
-    .tab.active {{
-        background-color: {'#3b82f6' if st.session_state.dark_mode else '#bfdbfe'};
-        color: {'#ffffff' if st.session_state.dark_mode else '#1e293b'};
-    }}
-    .tab:hover {{
-        background-color: {'#2563eb' if st.session_state.dark_mode else '#93c5fd'};
-        color: #ffffff;
-    }}
     .mode-toggle {{
         position: fixed;
         top: 1rem;
@@ -130,16 +108,12 @@ st.markdown(f"""
         .card {{
             padding: 1rem;
         }}
-        .main-title {{
-            font-size: 2rem;
-            padding: 1rem 0;
-        }}
-        .tabs {{
-            flex-wrap: wrap;
-        }}
-        .tab {{
-            margin: 0.25rem;
-        }}
+        .main-header {
+            height: 25vh;
+        }
+        .main-title {
+            font-size: 2.5rem;
+        }
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -152,7 +126,7 @@ def load_data():
 df = load_data()
 
 # Title
-st.markdown('<h1 class="main-title">FreightMate™ - Your Freight Comparison Specialist</h1>', unsafe_allow_html=True)
+st.markdown('<div class="main-header"><h1 class="main-title">FreightMate™ - Your Freight Comparison Specialist</h1></div>', unsafe_allow_html=True)
 
 # Dark mode toggle
 st.markdown(
@@ -175,75 +149,42 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Navigation tabs
-tabs = ["Home", "Freight Finder", "Rate Calculator", "About"]
-st.markdown(
-    f"""
-    <div class="tabs">
-        {''.join(f'<div class="tab{"" if st.session_state.active_tab != tab else " active"}" onclick="handleTabClick(\'{tab}\')">{tab}</div>' for tab in tabs)}
-    </div>
-    <script>
-        function handleTabClick(tab) {{
-            const streamlitDoc = window.parent.document;
-            const tabButton = streamlitDoc.querySelector(`button[kind="secondary"][aria-label="${{tab}}"]`);
-            if (tabButton) {{
-                tabButton.click();
-            }}
-        }}
-    </script>
-    """,
-    unsafe_allow_html=True
-)
 
-# Content based on selected tab
-if st.session_state.active_tab == "Home":
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.write("Welcome to FreightMate™! We help you find the most cost-effective freight options by comparing rates, schedules, and routes.")
-    st.write("## What FreightMate™ Does")
-    st.write("Our tool analyzes a comprehensive dataset of freight providers to offer you the best shipping solutions tailored to your needs.")
-    st.write("## Key Features")
-    st.write("- **Efficient Comparison:** Compare freight rates, transit times, and schedules across multiple carriers.")
-    st.write("- **Route Optimization:** Find the most efficient routes for your shipments.")
-    st.write("- **Cost Savings:** Identify the most cost-effective options for your freight needs.")
-    st.markdown('</div>', unsafe_allow_html=True)
+# Content
+st.markdown('<div class="card">', unsafe_allow_html=True)
+st.write("Welcome to FreightMate™! We help you find the most cost-effective freight options by comparing rates, schedules, and routes.")
+st.markdown('</div>', unsafe_allow_html=True)
 
-elif st.session_state.active_tab == "Freight Finder":
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.subheader("Find the Best Freight Option")
-    col1, col2 = st.columns(2)
-    with col1:
-        origin = st.selectbox("Select Origin", df['Origin'].unique())
-    with col2:
-        destination = st.selectbox("Select Destination", df['Destination'].unique())
-    
-    if st.button("Find Cheapest Freight"):
-        filtered_df = df[(df['Origin'] == origin) & (df['Destination'] == destination)]
-        if not filtered_df.empty:
-            cheapest_freight = filtered_df.loc[filtered_df['Freight Rate (USD)'].idxmin()]
-            st.success(f"The cheapest freight option from {origin} to {destination} is:")
-            st.json(cheapest_freight.to_dict())
-        else:
-            st.warning("No direct routes found for the selected origin and destination.")
-    st.markdown('</div>', unsafe_allow_html=True)
+# Freight Finder
+st.markdown('<div class="card">', unsafe_allow_html=True)
+st.subheader("Find the Best Freight Option")
+col1, col2 = st.columns(2)
+with col1:
+    origin = st.selectbox("Select Origin", df['Origin'].unique())
+with col2:
+    destination = st.selectbox("Select Destination", df['Destination'].unique())
 
-elif st.session_state.active_tab == "Rate Calculator":
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.subheader("Freight Rate Calculator")
-    weight = st.number_input("Enter shipment weight (kg)", min_value=0.1, step=0.1)
-    distance = st.number_input("Enter shipping distance (km)", min_value=1, step=1)
-    
-    if st.button("Calculate Estimated Rate"):
-        estimated_rate = weight * distance * 0.01  # Example calculation
-        st.success(f"Estimated freight rate: ${estimated_rate:.2f}")
-    st.markdown('</div>', unsafe_allow_html=True)
+if st.button("Find Cheapest Freight"):
+    filtered_df = df[(df['Origin'] == origin) & (df['Destination'] == destination)]
+    if not filtered_df.empty:
+        cheapest_freight = filtered_df.loc[filtered_df['Freight Rate (USD)'].idxmin()]
+        st.success(f"The cheapest freight option from {origin} to {destination} is:")
+        st.json(cheapest_freight.to_dict())
+    else:
+        st.warning("No direct routes found for the selected origin and destination.")
+st.markdown('</div>', unsafe_allow_html=True)
 
-elif st.session_state.active_tab == "About":
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.subheader("About FreightMate™")
-    st.write("FreightMate™ is your trusted partner in freight logistics. Our advanced algorithms and comprehensive database ensure that you always get the best rates and routes for your shipments.")
-    st.write("### Our Mission")
-    st.write("To simplify freight logistics and empower businesses with cost-effective shipping solutions.")
-    st.markdown('</div>', unsafe_allow_html=True)
+# Rate Calculator
+st.markdown('<div class="card">', unsafe_allow_html=True)
+st.subheader("Freight Rate Calculator")
+weight = st.number_input("Enter shipment weight (kg)", min_value=0.1, step=0.1)
+distance = st.number_input("Enter shipping distance (km)", min_value=1, step=1)
+
+if st.button("Calculate Estimated Rate"):
+    estimated_rate = weight * distance * 0.01  # Example calculation
+    st.success(f"Estimated freight rate: ${estimated_rate:.2f}")
+st.markdown('</div>', unsafe_allow_html=True)
+
 
 # RAG Implementation
 def get_rag_response(query):
@@ -273,9 +214,3 @@ st.markdown('</div>', unsafe_allow_html=True)
 # Footer
 st.markdown("---")
 st.write("© 2024 FreightMate™ | All Rights Reserved")
-
-# Handle tab selection
-for tab in tabs:
-    if st.button(tab, key=f"tab_{tab}"):
-        st.session_state.active_tab = tab
-        st.rerun()
