@@ -17,7 +17,7 @@ if 'dark_mode' not in st.session_state:
 # Function to toggle dark mode
 def toggle_dark_mode():
     st.session_state.dark_mode = not st.session_state.dark_mode
-    st.experimental_rerun()
+    apply_custom_css()
 
 # Page configuration
 st.set_page_config(page_title="FreightMate™ - Your Freight Comparison Specialist", page_icon="🚚", layout="wide")
@@ -139,7 +139,7 @@ df = load_data()
 st.markdown('<div class="hero-header"><h1 class="main-title">FreightMate™</h1></div>', unsafe_allow_html=True)
 
 # Dark mode toggle
-st.sidebar.markdown(
+st.markdown(
     f"""
     <div class="mode-toggle" onclick="toggleDarkMode()">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
