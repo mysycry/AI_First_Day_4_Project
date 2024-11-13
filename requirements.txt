@@ -1,0 +1,14 @@
+pandas==1.5.3
+plotly==5.14.1
+python-dotenv==1.0.0
+openai==0.28
+streamlit
+streamlit_option_menu
+streamlit_extras
+faiss-cpu
+plotly
+openpyxl
+langchain
+langchain_community
+scipy
+scikit-learn
