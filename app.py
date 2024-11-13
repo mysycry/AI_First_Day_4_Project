@@ -17,114 +17,116 @@ if 'dark_mode' not in st.session_state:
 # Function to toggle dark mode
 def toggle_dark_mode():
     st.session_state.dark_mode = not st.session_state.dark_mode
+    st.experimental_rerun()
 
 # Page configuration
 st.set_page_config(page_title="FreightMate™ - Your Freight Comparison Specialist", page_icon="🚚", layout="wide")
 
 # Custom CSS
-st.markdown(f"""
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-    
-    :root {{
-        --bg-color: {('#ffffff' if not st.session_state.dark_mode else '#1e293b')};
-        --text-color: {('#1e293b' if not st.session_state.dark_mode else '#ffffff')};
-        --card-bg: {('rgba(255, 255, 255, 0.7)' if not st.session_state.dark_mode else 'rgba(30, 41, 59, 0.7)')};
-        --card-shadow: {('20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff' if not st.session_state.dark_mode else '20px 20px 60px #1a2435, -20px -20px 60px #222e41')};
-        --button-bg: {('linear-gradient(145deg, #e6e6e6, #ffffff)' if not st.session_state.dark_mode else 'linear-gradient(145deg, #1c2638, #20293c)')};
-        --button-shadow: {('5px 5px 10px #d9d9d9, -5px -5px 10px #ffffff' if not st.session_state.dark_mode else '5px 5px 10px #1a2435, -5px -5px 10px #222e41')};
-    }}
-    
-    body, .stApp {{
-        font-family: 'Inter', sans-serif;
-        color: var(--text-color);
-        background-color: var(--bg-color);
-    }}
-    .hero-header {{
-        height: 33vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-image: linear-gradient(rgba(30, 41, 59, 0.7), rgba(30, 41, 59, 0.7)), url('https://images.unsplash.com/photo-1720538531229-46862d8f0381?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-        background-size: cover;
-        background-position: center;
-        margin-bottom: 2rem;
-        border-radius: 20px;
-    }}
-    .main-title {{
-        font-size: 3.5rem;
-        font-weight: 700;
-        text-align: center;
-        color: #ffffff;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }}
-    .stButton>button {{
-        color: var(--text-color);
-        background: var(--button-bg);
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 15px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: var(--button-shadow);
-    }}
-    .stButton>button:hover {{
-        transform: translateY(-2px);
-    }}
-    .stTextInput>div>div>input, .stSelectbox>div>div>div, .stTextArea>div>div>textarea {{
-        color: var(--text-color);
-        background-color: var(--card-bg);
-        border-radius: 15px;
-        border: none;
-        padding: 0.5rem;
-        box-shadow: var(--button-shadow);
-    }}
-    .card {{
-        background-color: var(--card-bg);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-        box-shadow: var(--card-shadow);
-        transition: all 0.3s ease;
-    }}
-    .card:hover {{
-        transform: translateY(-5px);
-    }}
-    .mode-toggle {{
-        position: fixed;
-        top: 1rem;
-        right: 1rem;
-        z-index: 1000;
-        background-color: var(--card-bg);
-        border-radius: 50%;
-        padding: 0.75rem;
-        backdrop-filter: blur(5px);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: var(--button-shadow);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }}
-    .mode-toggle svg {{
-        width: 24px;
-        height: 24px;
-        color: var(--text-color);
-    }}
-    @media (max-width: 768px) {{
-        .card {{
-            padding: 1rem;
+def apply_custom_css():
+    st.markdown(f"""
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        :root {{
+            --bg-color: {('#ffffff' if not st.session_state.dark_mode else '#1e293b')};
+            --text-color: {('#1e293b' if not st.session_state.dark_mode else '#ffffff')};
+            --card-bg: {('rgba(255, 255, 255, 0.7)' if not st.session_state.dark_mode else 'rgba(30, 41, 59, 0.7)')};
+            --card-shadow: {('20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff' if not st.session_state.dark_mode else '20px 20px 60px #1a2435, -20px -20px 60px #222e41')};
+            --button-bg: {('linear-gradient(145deg, #e6e6e6, #ffffff)' if not st.session_state.dark_mode else 'linear-gradient(145deg, #1c2638, #20293c)')};
+            --button-shadow: {('5px 5px 10px #d9d9d9, -5px -5px 10px #ffffff' if not st.session_state.dark_mode else '5px 5px 10px #1a2435, -5px -5px 10px #222e41')};
+        }}
+        
+        body, .stApp {{
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
         }}
         .hero-header {{
-            height: 25vh;
+            height: 33vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: linear-gradient(rgba(30, 41, 59, 0.7), rgba(30, 41, 59, 0.7)), url('https://images.unsplash.com/photo-1720538531229-46862d8f0381?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 2rem;
+            border-radius: 20px;
         }}
         .main-title {{
-            font-size: 2.5rem;
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-align: center;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }}
-    }}
-</style>
-""", unsafe_allow_html=True)
+        .stButton>button {{
+            color: var(--text-color);
+            background: var(--button-bg);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--button-shadow);
+        }}
+        .stButton>button:hover {{
+            transform: translateY(-2px);
+        }}
+        .stTextInput>div>div>input, .stSelectbox>div>div>div, .stTextArea>div>div>textarea {{
+            color: var(--text-color);
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            border: none;
+            padding: 0.5rem;
+            box-shadow: var(--button-shadow);
+        }}
+        .card {{
+            background-color: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }}
+        .card:hover {{
+            transform: translateY(-5px);
+        }}
+        .mode-toggle {{
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            background-color: var(--card-bg);
+            border-radius: 50%;
+            padding: 0.75rem;
+            backdrop-filter: blur(5px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--button-shadow);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }}
+        .mode-toggle svg {{
+            width: 24px;
+            height: 24px;
+            color: var(--text-color);
+        }}
+        @media (max-width: 768px) {{
+            .card {{
+                padding: 1rem;
+            }}
+            .hero-header {{
+                height: 25vh;
+            }}
+            .main-title {{
+                font-size: 2.5rem;
+            }}
+        }}
+    </style>
+    """, unsafe_allow_html=True)
 
 # Load the dataset
 @st.cache_data
@@ -137,7 +139,7 @@ df = load_data()
 st.markdown('<div class="hero-header"><h1 class="main-title">FreightMate™</h1></div>', unsafe_allow_html=True)
 
 # Dark mode toggle
-st.markdown(
+st.sidebar.markdown(
     f"""
     <div class="mode-toggle" onclick="toggleDarkMode()">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -156,6 +158,9 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+# Apply custom CSS
+apply_custom_css()
 
 # Welcome Section
 st.markdown('<div class="card">', unsafe_allow_html=True)
