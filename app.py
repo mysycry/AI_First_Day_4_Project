@@ -35,12 +35,9 @@ st.markdown(f"""
         --button-shadow: {('5px 5px 10px #d9d9d9, -5px -5px 10px #ffffff' if not st.session_state.dark_mode else '5px 5px 10px #1a2435, -5px -5px 10px #222e41')};
     }}
     
-    body {{
+    body, .stApp {{
         font-family: 'Inter', sans-serif;
         color: var(--text-color);
-        background-color: var(--bg-color);
-    }}
-    .stApp {{
         background-color: var(--bg-color);
     }}
     .hero-header {{
@@ -101,14 +98,19 @@ st.markdown(f"""
         z-index: 1000;
         background-color: var(--card-bg);
         border-radius: 50%;
-        padding: 0.5rem;
+        padding: 0.75rem;
         backdrop-filter: blur(5px);
         cursor: pointer;
         transition: all 0.3s ease;
         box-shadow: var(--button-shadow);
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }}
-    .mode-toggle:hover {{
-        transform: scale(1.1);
+    .mode-toggle svg {{
+        width: 24px;
+        height: 24px;
+        color: var(--text-color);
     }}
     @media (max-width: 768px) {{
         .card {{
@@ -145,7 +147,7 @@ st.markdown(
     <script>
         function toggleDarkMode() {{
             const streamlitDoc = window.parent.document;
-            const darkModeButton = streamlitDoc.querySelector('button[kind="secondary"][aria-label="Toggle dark mode"]');
+            const darkModeButton = streamlitDoc.querySelector('button[kind="secondary"][aria-label="Toggle theme"]');
             if (darkModeButton) {{
                 darkModeButton.click();
             }}
