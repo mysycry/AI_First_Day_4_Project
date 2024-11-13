@@ -32,13 +32,9 @@ st.markdown(f"""
         background-color: {'#0f172a' if st.session_state.dark_mode else '#f8fafc'};
     }}
     .stApp {{
-        background-image: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1720538531229-46862d8f0381?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
+        background-color: {'#0f172a' if st.session_state.dark_mode else '#f8fafc'};
     }}
-    .main-header {
+    .hero-header {{
         height: 33vh;
         display: flex;
         justify-content: center;
@@ -47,14 +43,14 @@ st.markdown(f"""
         background-size: cover;
         background-position: center;
         margin-bottom: 2rem;
-    }
-    .main-title {
+    }}
+    .main-title {{
         font-size: 3.5rem;
         font-weight: 700;
         text-align: center;
         color: #ffffff;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
+    }}
     .stButton>button {{
         color: {'#ffffff' if st.session_state.dark_mode else '#1e293b'};
         background-color: {'#3b82f6' if st.session_state.dark_mode else '#e0f2fe'};
@@ -108,12 +104,12 @@ st.markdown(f"""
         .card {{
             padding: 1rem;
         }}
-        .main-header {
+        .hero-header {{
             height: 25vh;
-        }
-        .main-title {
+        }}
+        .main-title {{
             font-size: 2.5rem;
-        }
+        }}
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -125,8 +121,8 @@ def load_data():
 
 df = load_data()
 
-# Title
-st.markdown('<div class="main-header"><h1 class="main-title">FreightMate™ - Your Freight Comparison Specialist</h1></div>', unsafe_allow_html=True)
+# Hero Header with FreightMate™ name
+st.markdown('<div class="hero-header"><h1 class="main-title">FreightMate™</h1></div>', unsafe_allow_html=True)
 
 # Dark mode toggle
 st.markdown(
@@ -149,13 +145,14 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-# Content
+# Welcome Section
 st.markdown('<div class="card">', unsafe_allow_html=True)
-st.write("Welcome to FreightMate™! We help you find the most cost-effective freight options by comparing rates, schedules, and routes.")
+st.subheader("Welcome to FreightMate™")
+st.write("Your Freight Comparison Specialist")
+st.write("We help you find the most cost-effective freight options by comparing rates, schedules, and routes.")
 st.markdown('</div>', unsafe_allow_html=True)
 
-# Freight Finder
+# Freight Finder Section
 st.markdown('<div class="card">', unsafe_allow_html=True)
 st.subheader("Find the Best Freight Option")
 col1, col2 = st.columns(2)
@@ -174,7 +171,7 @@ if st.button("Find Cheapest Freight"):
         st.warning("No direct routes found for the selected origin and destination.")
 st.markdown('</div>', unsafe_allow_html=True)
 
-# Rate Calculator
+# Rate Calculator Section
 st.markdown('<div class="card">', unsafe_allow_html=True)
 st.subheader("Freight Rate Calculator")
 weight = st.number_input("Enter shipment weight (kg)", min_value=0.1, step=0.1)
@@ -185,8 +182,7 @@ if st.button("Calculate Estimated Rate"):
     st.success(f"Estimated freight rate: ${estimated_rate:.2f}")
 st.markdown('</div>', unsafe_allow_html=True)
 
-
-# RAG Implementation
+# RAG Implementation Section
 def get_rag_response(query):
     context = df.to_string()
     response = openai.ChatCompletion.create(
