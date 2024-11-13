@@ -19,8 +19,8 @@ FreightMate™ is a Streamlit-based web application designed to help users find 
 ### Step 1: Clone the repository
 
 ```bash
-git clone https://github.com/your-username/freightmate.git
-cd freightmate
+git clone https://github.com/mysycry/AI_First_Day_4_Project.git
+cd AI_First_Day_4_Project
 ```
 
 ### Step 2: Set up a virtual environment
