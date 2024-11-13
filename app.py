@@ -26,23 +26,33 @@ st.markdown(f"""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
     
+    :root {{
+        --bg-color: {('#ffffff' if not st.session_state.dark_mode else '#1e293b')};
+        --text-color: {('#1e293b' if not st.session_state.dark_mode else '#ffffff')};
+        --card-bg: {('rgba(255, 255, 255, 0.7)' if not st.session_state.dark_mode else 'rgba(30, 41, 59, 0.7)')};
+        --card-shadow: {('20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff' if not st.session_state.dark_mode else '20px 20px 60px #1a2435, -20px -20px 60px #222e41')};
+        --button-bg: {('linear-gradient(145deg, #e6e6e6, #ffffff)' if not st.session_state.dark_mode else 'linear-gradient(145deg, #1c2638, #20293c)')};
+        --button-shadow: {('5px 5px 10px #d9d9d9, -5px -5px 10px #ffffff' if not st.session_state.dark_mode else '5px 5px 10px #1a2435, -5px -5px 10px #222e41')};
+    }}
+    
     body {{
         font-family: 'Inter', sans-serif;
-        color: {'#ffffff' if st.session_state.dark_mode else '#1e293b'};
-        background-color: {'#0f172a' if st.session_state.dark_mode else '#f8fafc'};
+        color: var(--text-color);
+        background-color: var(--bg-color);
     }}
     .stApp {{
-        background-color: {'#0f172a' if st.session_state.dark_mode else '#f8fafc'};
+        background-color: var(--bg-color);
     }}
     .hero-header {{
         height: 33vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-image: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1720538531229-46862d8f0381?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+        background-image: linear-gradient(rgba(30, 41, 59, 0.7), rgba(30, 41, 59, 0.7)), url('https://images.unsplash.com/photo-1720538531229-46862d8f0381?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
         background-size: cover;
         background-position: center;
         margin-bottom: 2rem;
+        border-radius: 20px;
     }}
     .main-title {{
         font-size: 3.5rem;
@@ -52,50 +62,50 @@ st.markdown(f"""
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }}
     .stButton>button {{
-        color: {'#ffffff' if st.session_state.dark_mode else '#1e293b'};
-        background-color: {'#3b82f6' if st.session_state.dark_mode else '#e0f2fe'};
+        color: var(--text-color);
+        background: var(--button-bg);
         border: none;
         padding: 0.5rem 1rem;
-        border-radius: 8px;
+        border-radius: 15px;
         font-weight: 600;
         transition: all 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--button-shadow);
     }}
     .stButton>button:hover {{
-        background-color: {'#2563eb' if st.session_state.dark_mode else '#bfdbfe'};
         transform: translateY(-2px);
     }}
     .stTextInput>div>div>input, .stSelectbox>div>div>div, .stTextArea>div>div>textarea {{
-        color: {'#ffffff' if st.session_state.dark_mode else '#1e293b'};
-        background-color: {'rgba(30, 41, 59, 0.8)' if st.session_state.dark_mode else 'rgba(255, 255, 255, 0.8)'};
-        border-radius: 8px;
-        border: 1px solid {'#475569' if st.session_state.dark_mode else '#cbd5e1'};
+        color: var(--text-color);
+        background-color: var(--card-bg);
+        border-radius: 15px;
+        border: none;
         padding: 0.5rem;
+        box-shadow: var(--button-shadow);
     }}
     .card {{
-        background-color: {'rgba(15, 23, 42, 0.8)' if st.session_state.dark_mode else 'rgba(248, 250, 252, 0.8)'};
+        background-color: var(--card-bg);
         backdrop-filter: blur(10px);
-        border-radius: 12px;
+        border-radius: 20px;
         padding: 1.5rem;
         margin-bottom: 1.5rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--card-shadow);
         transition: all 0.3s ease;
     }}
     .card:hover {{
         transform: translateY(-5px);
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
     }}
     .mode-toggle {{
         position: fixed;
         top: 1rem;
         right: 1rem;
         z-index: 1000;
-        background-color: {'rgba(15, 23, 42, 0.6)' if st.session_state.dark_mode else 'rgba(248, 250, 252, 0.6)'};
+        background-color: var(--card-bg);
         border-radius: 50%;
         padding: 0.5rem;
         backdrop-filter: blur(5px);
         cursor: pointer;
         transition: all 0.3s ease;
+        box-shadow: var(--button-shadow);
     }}
     .mode-toggle:hover {{
         transform: scale(1.1);
