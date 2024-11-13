@@ -10,9 +10,11 @@ load_dotenv()
 # Set up OpenAI API
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# Initialize session state for dark mode
+# Initialize session state for dark mode and active tab
 if 'dark_mode' not in st.session_state:
     st.session_state.dark_mode = True
+if 'active_tab' not in st.session_state:
+    st.session_state.active_tab = "Home"
 
 # Function to toggle dark mode
 def toggle_dark_mode():
@@ -139,30 +141,14 @@ df = load_data()
 st.markdown('<h1 class="main-title">FreightMate™ - Your Freight Comparison Specialist</h1>', unsafe_allow_html=True)
 
 # Dark mode toggle
-st.markdown(
-    f"""
-    <div class="mode-toggle">
-        <button onclick="toggleDarkMode()">{'🌙' if st.session_state.dark_mode else '☀️'}</button>
-    </div>
-    <script>
-        function toggleDarkMode() {{
-            const streamlitDoc = window.parent.document;
-            const darkModeSwitch = streamlitDoc.querySelector('button[kind="secondary"][aria-label="View fullscreen"]');
-            if (darkModeSwitch) {{
-                darkModeSwitch.click();
-            }}
-        }}
-    </script>
-    """,
-    unsafe_allow_html=True
-)
+st.sidebar.button("Toggle Dark/Light Mode", on_click=toggle_dark_mode)
 
 # Navigation tabs
 tabs = ["Home", "Freight Finder", "Rate Calculator", "About"]
 st.markdown(
     f"""
     <div class="tabs">
-        {''.join(f'<div class="tab{"" if st.session_state.get("active_tab") != tab else " active"}" onclick="handleTabClick(\'{tab}\')">{tab}</div>' for tab in tabs)}
+        {''.join(f'<div class="tab{"" if st.session_state.active_tab != tab else " active"}" onclick="handleTabClick(\'{tab}\')">{tab}</div>' for tab in tabs)}
     </div>
     <script>
         function handleTabClick(tab) {{
@@ -178,9 +164,6 @@ st.markdown(
 )
 
 # Content based on selected tab
-if 'active_tab' not in st.session_state:
-    st.session_state.active_tab = "Home"
-
 if st.session_state.active_tab == "Home":
     st.markdown('<div class="card">', unsafe_allow_html=True)
     st.write("Welcome to FreightMate™! We help you find the most cost-effective freight options by comparing rates, schedules, and routes.")
@@ -264,4 +247,4 @@ st.write("© 2024 FreightMate™ | All Rights Reserved")
 for tab in tabs:
     if st.button(tab, key=f"tab_{tab}"):
         st.session_state.active_tab = tab
-        st.experimental_rerun()
+        st.rerun()
