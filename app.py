@@ -10,98 +10,121 @@ load_dotenv()
 # Set up OpenAI API
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+# Initialize session state for dark mode
+if 'dark_mode' not in st.session_state:
+    st.session_state.dark_mode = True
+
+# Function to toggle dark mode
+def toggle_dark_mode():
+    st.session_state.dark_mode = not st.session_state.dark_mode
+
 # Page configuration
 st.set_page_config(page_title="FreightMate™ - Your Freight Comparison Specialist", page_icon="🚚", layout="wide")
 
 # Custom CSS
-st.markdown("""
+st.markdown(f"""
 <style>
-    body {
-        color: #ffffff;
-        background-color: #0f172a;
-    }
-    .stApp {
-        background-image: url('https://images.unsplash.com/photo-1720538531229-46862d8f0381?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    body {{
+        color: {'#ffffff' if st.session_state.dark_mode else '#1e293b'};
+        background-color: {'#0f172a' if st.session_state.dark_mode else '#f8fafc'};
+    }}
+    .stApp {{
+        background-image: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1720538531229-46862d8f0381?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
-    }
-    .main-title {
+    }}
+    .main-title {{
         font-size: 3rem;
         font-weight: bold;
         text-align: center;
         padding: 2rem 0;
-        background-color: rgba(15, 23, 42, 0.8);
+        background-color: {'rgba(15, 23, 42, 0.8)' if st.session_state.dark_mode else 'rgba(248, 250, 252, 0.8)'};
         backdrop-filter: blur(10px);
         border-radius: 15px;
         margin-bottom: 2rem;
-    }
-    .stButton>button {
-        color: #ffffff;
-        background-color: #1e40af;
+        color: {'#ffffff' if st.session_state.dark_mode else '#1e293b'};
+    }}
+    .stButton>button {{
+        color: {'#ffffff' if st.session_state.dark_mode else '#1e293b'};
+        background-color: {'#1e40af' if st.session_state.dark_mode else '#3b82f6'};
         border: none;
         padding: 0.5rem 1rem;
         border-radius: 0.375rem;
         font-weight: 600;
         transition: all 0.3s ease;
-    }
-    .stButton>button:hover {
-        background-color: #1e3a8a;
-    }
-    .stTextInput>div>div>input, .stSelectbox>div>div>div {
-        color: #1e293b;
-        background-color: rgba(255, 255, 255, 0.9);
+    }}
+    .stButton>button:hover {{
+        background-color: {'#1e3a8a' if st.session_state.dark_mode else '#2563eb'};
+    }}
+    .stTextInput>div>div>input, .stSelectbox>div>div>div {{
+        color: {'#ffffff' if st.session_state.dark_mode else '#1e293b'};
+        background-color: {'rgba(30, 41, 59, 0.8)' if st.session_state.dark_mode else 'rgba(255, 255, 255, 0.8)'};
         border-radius: 0.375rem;
-        border: 1px solid #cbd5e1;
-    }
-    .stTextArea>div>div>textarea {
-        color: #1e293b;
-        background-color: rgba(255, 255, 255, 0.9);
+        border: 1px solid {'#475569' if st.session_state.dark_mode else '#cbd5e1'};
+    }}
+    .stTextArea>div>div>textarea {{
+        color: {'#ffffff' if st.session_state.dark_mode else '#1e293b'};
+        background-color: {'rgba(30, 41, 59, 0.8)' if st.session_state.dark_mode else 'rgba(255, 255, 255, 0.8)'};
         border-radius: 0.375rem;
-        border: 1px solid #cbd5e1;
+        border: 1px solid {'#475569' if st.session_state.dark_mode else '#cbd5e1'};
         min-height: 100px;
-    }
-    .card {
-        background-color: rgba(15, 23, 42, 0.8);
+    }}
+    .card {{
+        background-color: {'rgba(15, 23, 42, 0.8)' if st.session_state.dark_mode else 'rgba(248, 250, 252, 0.8)'};
         backdrop-filter: blur(10px);
         border-radius: 15px;
         padding: 1.5rem;
         margin-bottom: 1.5rem;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease;
-    }
-    .card:hover {
+    }}
+    .card:hover {{
         transform: translateY(-5px);
         box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
-    }
-    @media (max-width: 768px) {
-        .card {
+    }}
+    .tabs {{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }}
+    .tab {{
+        padding: 0.5rem 1rem;
+        margin: 0 0.5rem;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }}
+    .tab.active {{
+        background-color: {'#1e40af' if st.session_state.dark_mode else '#3b82f6'};
+        color: #ffffff;
+    }}
+    .tab:hover {{
+        background-color: {'#1e3a8a' if st.session_state.dark_mode else '#2563eb'};
+        color: #ffffff;
+    }}
+    .mode-toggle {{
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 1000;
+    }}
+    @media (max-width: 768px) {{
+        .card {{
             padding: 1rem;
-        }
-        .main-title {
+        }}
+        .main-title {{
             font-size: 2rem;
             padding: 1rem 0;
-        }
-    }
-    h1, h2, h3 {
-        color: #ffffff;
-    }
-    .stAlert {
-        background-color: rgba(255, 255, 255, 0.2);
-        color: #ffffff;
-        border-radius: 0.375rem;
-    }
-    .query-box {
-        background-color: rgba(15, 23, 42, 0.8);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 1.5rem;
-        margin-top: 2rem;
-    }
-    .query-input {
-        margin-bottom: 1rem;
-    }
+        }}
+        .tabs {{
+            flex-wrap: wrap;
+        }}
+        .tab {{
+            margin: 0.25rem;
+        }}
+    }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -115,11 +138,50 @@ df = load_data()
 # Title
 st.markdown('<h1 class="main-title">FreightMate™ - Your Freight Comparison Specialist</h1>', unsafe_allow_html=True)
 
-# Navigation menu
-menu = ["Home", "Freight Finder", "Rate Calculator", "About"]
-choice = st.selectbox("Navigation", menu)
+# Dark mode toggle
+st.markdown(
+    f"""
+    <div class="mode-toggle">
+        <button onclick="toggleDarkMode()">{'🌙' if st.session_state.dark_mode else '☀️'}</button>
+    </div>
+    <script>
+        function toggleDarkMode() {{
+            const streamlitDoc = window.parent.document;
+            const darkModeSwitch = streamlitDoc.querySelector('button[kind="secondary"][aria-label="View fullscreen"]');
+            if (darkModeSwitch) {{
+                darkModeSwitch.click();
+            }}
+        }}
+    </script>
+    """,
+    unsafe_allow_html=True
+)
 
-if choice == "Home":
+# Navigation tabs
+tabs = ["Home", "Freight Finder", "Rate Calculator", "About"]
+st.markdown(
+    f"""
+    <div class="tabs">
+        {''.join(f'<div class="tab{"" if st.session_state.get("active_tab") != tab else " active"}" onclick="handleTabClick(\'{tab}\')">{tab}</div>' for tab in tabs)}
+    </div>
+    <script>
+        function handleTabClick(tab) {{
+            const streamlitDoc = window.parent.document;
+            const tabButton = streamlitDoc.querySelector(`button[kind="secondary"][aria-label="${{tab}}"]`);
+            if (tabButton) {{
+                tabButton.click();
+            }}
+        }}
+    </script>
+    """,
+    unsafe_allow_html=True
+)
+
+# Content based on selected tab
+if 'active_tab' not in st.session_state:
+    st.session_state.active_tab = "Home"
+
+if st.session_state.active_tab == "Home":
     st.markdown('<div class="card">', unsafe_allow_html=True)
     st.write("Welcome to FreightMate™! We help you find the most cost-effective freight options by comparing rates, schedules, and routes.")
     st.write("## What FreightMate™ Does")
@@ -130,7 +192,7 @@ if choice == "Home":
     st.write("- **Cost Savings:** Identify the most cost-effective options for your freight needs.")
     st.markdown('</div>', unsafe_allow_html=True)
 
-elif choice == "Freight Finder":
+elif st.session_state.active_tab == "Freight Finder":
     st.markdown('<div class="card">', unsafe_allow_html=True)
     st.subheader("Find the Best Freight Option")
     col1, col2 = st.columns(2)
@@ -149,7 +211,7 @@ elif choice == "Freight Finder":
             st.warning("No direct routes found for the selected origin and destination.")
     st.markdown('</div>', unsafe_allow_html=True)
 
-elif choice == "Rate Calculator":
+elif st.session_state.active_tab == "Rate Calculator":
     st.markdown('<div class="card">', unsafe_allow_html=True)
     st.subheader("Freight Rate Calculator")
     weight = st.number_input("Enter shipment weight (kg)", min_value=0.1, step=0.1)
@@ -161,7 +223,7 @@ elif choice == "Rate Calculator":
         st.success(f"Estimated freight rate: ${estimated_rate:.2f}")
     st.markdown('</div>', unsafe_allow_html=True)
 
-elif choice == "About":
+elif st.session_state.active_tab == "About":
     st.markdown('<div class="card">', unsafe_allow_html=True)
     st.subheader("About FreightMate™")
     st.write("FreightMate™ is your trusted partner in freight logistics. Our advanced algorithms and comprehensive database ensure that you always get the best rates and routes for your shipments.")
@@ -181,10 +243,10 @@ def get_rag_response(query):
     )
     return response.choices[0].message['content']
 
-st.markdown('<div class="query-box">', unsafe_allow_html=True)
+st.markdown('<div class="card">', unsafe_allow_html=True)
 st.subheader("Ask FreightMate™")
-user_query = st.text_area("Ask about freight rates and scheduling:", height=100, key="query-input")
-if st.button("Submit Question", key="submit-button"):
+user_query = st.text_area("Ask about freight rates and scheduling:", height=100)
+if st.button("Submit Question"):
     if user_query:
         with st.spinner("FreightMate™ is thinking..."):
             rag_response = get_rag_response(user_query)
@@ -197,3 +259,9 @@ st.markdown('</div>', unsafe_allow_html=True)
 # Footer
 st.markdown("---")
 st.write("© 2024 FreightMate™ | All Rights Reserved")
+
+# Handle tab selection
+for tab in tabs:
+    if st.button(tab, key=f"tab_{tab}"):
+        st.session_state.active_tab = tab
+        st.experimental_rerun()
