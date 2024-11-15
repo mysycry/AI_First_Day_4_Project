@@ -108,6 +108,7 @@ def apply_custom_css():
             margin-bottom: 1rem;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
+            color: #000000; /* Added black text color for all content */
         }
 
         .freight-card:hover {
@@ -116,13 +117,14 @@ def apply_custom_css():
         }
 
         .freight-card h3 {
-            color: var(--primary-color);
             margin-bottom: 0.5rem;
+            color: #000000; /* Changed heading color to black */
         }
 
         .freight-card p {
             margin: 0.25rem 0;
-        }
+            color: #000000; /* Added black color explicitly for paragraphs */
+         }
     </style>
     """, unsafe_allow_html=True)
 
