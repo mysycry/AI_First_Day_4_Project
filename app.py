@@ -35,27 +35,42 @@ def apply_custom_css():
         }
 
         .hero-header {
-            background-color: var(--primary-color);
-            padding: 2rem;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.pexels.com/photos/19856693/pexels-photo-19856693/free-photo-of-cargo-jet-at-airport.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+            background-size: cover;
+            background-position: center;
+            padding: 4rem 2rem;
             margin-bottom: 2rem;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
         .main-title {
             color: white;
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 700;
             text-align: center;
             margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        .section-divider {
+            position: relative;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            margin: 3rem 0;
+            opacity: 0.7;
+        }
+
+        .section-divider::before {
+            content: '●';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--primary-color);
+            background: var(--background-color);
+            padding: 0 1rem;
         }
 
         .stButton > button {
@@ -81,6 +96,10 @@ def apply_custom_css():
         .stSelectbox > div > div > select {
             border-radius: 5px;
         }
+
+        .content-section {
+            padding: 2rem 0;
+        }
     </style>
     """, unsafe_allow_html=True)
 
@@ -98,14 +117,17 @@ st.markdown('<div class="hero-header"><h1 class="main-title">FreightMate™</h1>
 apply_custom_css()
 
 # Welcome Section
-st.markdown('<div class="card">', unsafe_allow_html=True)
+st.markdown('<div class="content-section">', unsafe_allow_html=True)
 st.subheader("Welcome to FreightMate™")
 st.write("Your Freight Comparison Specialist")
 st.write("We help you find the most cost-effective freight options by comparing rates, schedules, and routes.")
 st.markdown('</div>', unsafe_allow_html=True)
 
+# Section Divider
+st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+
 # Freight Finder Section
-st.markdown('<div class="card">', unsafe_allow_html=True)
+st.markdown('<div class="content-section">', unsafe_allow_html=True)
 st.subheader("Find the Best Freight Option")
 col1, col2 = st.columns(2)
 with col1:
@@ -123,8 +145,11 @@ if st.button("Find Cheapest Freight"):
         st.warning("No direct routes found for the selected origin and destination.")
 st.markdown('</div>', unsafe_allow_html=True)
 
+# Section Divider
+st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+
 # Rate Calculator Section
-st.markdown('<div class="card">', unsafe_allow_html=True)
+st.markdown('<div class="content-section">', unsafe_allow_html=True)
 st.subheader("Freight Rate Calculator")
 weight = st.number_input("Enter shipment weight (kg)", min_value=0.1, step=0.1)
 distance = st.number_input("Enter shipping distance (km)", min_value=1, step=1)
@@ -133,6 +158,9 @@ if st.button("Calculate Estimated Rate"):
     estimated_rate = weight * distance * 0.01  # Example calculation
     st.success(f"Estimated freight rate: ${estimated_rate:.2f}")
 st.markdown('</div>', unsafe_allow_html=True)
+
+# Section Divider
+st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
 # RAG Implementation Section
 def get_rag_response(query):
@@ -146,7 +174,7 @@ def get_rag_response(query):
     )
     return response.choices[0].message['content']
 
-st.markdown('<div class="card">', unsafe_allow_html=True)
+st.markdown('<div class="content-section">', unsafe_allow_html=True)
 st.subheader("Ask FreightMate™")
 user_query = st.text_area("Ask about freight rates and scheduling:", height=100)
 if st.button("Submit Question"):
@@ -160,5 +188,5 @@ if st.button("Submit Question"):
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Footer
-st.markdown("---")
+st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 st.write("© 2024 FreightMate™ | All Rights Reserved")
