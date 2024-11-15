@@ -10,49 +10,14 @@ load_dotenv()
 # Set up OpenAI API
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# Initialize session state for dark mode
-if 'dark_mode' not in st.session_state:
-    st.session_state.dark_mode = False
-
-# Function to toggle dark mode
-def toggle_dark_mode():
-    st.session_state.dark_mode = not st.session_state.dark_mode
-    apply_custom_css()
-
 # Page configuration
 st.set_page_config(page_title="FreightMate™ - Your Freight Comparison Specialist", page_icon="🚚", layout="wide")
 
 # Custom CSS
 def apply_custom_css():
-    st.markdown(f"""
+    st.markdown("""
     <style>
         /* ... (the rest of the CSS remains the same) ... */
-        
-        .mode-toggle {{
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-            background-color: var(--card-bg);
-            border-radius: 50%;
-            padding: 0.75rem;
-            backdrop-filter: blur(5px);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: var(--button-shadow);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }}
-        
-        @media (max-width: 768px) {{
-            .mode-toggle {{
-                top: 1rem;
-                right: 1rem;
-                transform: none;
-            }}
-        }}
     </style>
     """, unsafe_allow_html=True)
 
@@ -65,27 +30,6 @@ df = load_data()
 
 # Hero Header with FreightMate™ name
 st.markdown('<div class="hero-header"><h1 class="main-title">FreightMate™</h1></div>', unsafe_allow_html=True)
-
-# Dark mode toggle
-st.markdown(
-    f"""
-    <div class="mode-toggle" onclick="toggleDarkMode()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            {'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>' if st.session_state.dark_mode else '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>'}
-        </svg>
-    </div>
-    <script>
-        function toggleDarkMode() {{
-            const streamlitDoc = window.parent.document;
-            const darkModeButton = streamlitDoc.querySelector('button[kind="secondary"][aria-label="Toggle theme"]');
-            if (darkModeButton) {{
-                darkModeButton.click();
-            }}
-        }}
-    </script>
-    """,
-    unsafe_allow_html=True
-)
 
 # Apply custom CSS
 apply_custom_css()
