@@ -63,7 +63,7 @@ def apply_custom_css():
         }
 
         .section-divider::before {
-            content: '🚢✈️🚛 🚢✈️🚛 🚢✈️🚛 🚢✈️🚛 🚢✈️🚛';
+            content: '🚛✈️🚢 🚛✈️🚢 🚛✈️🚢';
             position: absolute;
             left: 50%;
             top: 50%;
@@ -100,6 +100,29 @@ def apply_custom_css():
         .content-section {
             padding: 2rem 0;
         }
+
+        .freight-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .freight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .freight-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .freight-card p {
+            margin: 0.25rem 0;
+        }
     </style>
     """, unsafe_allow_html=True)
 
@@ -129,20 +152,25 @@ st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 # Freight Finder Section
 st.markdown('<div class="content-section">', unsafe_allow_html=True)
 st.subheader("Find the Best Freight Option")
-col1, col2 = st.columns(2)
-with col1:
-    origin = st.selectbox("Select Origin", df['Origin'].unique())
-with col2:
-    destination = st.selectbox("Select Destination", df['Destination'].unique())
+origin = st.selectbox("Select Origin", df['Origin'].unique())
 
-if st.button("Find Cheapest Freight"):
-    filtered_df = df[(df['Origin'] == origin) & (df['Destination'] == destination)]
+if origin:
+    filtered_df = df[df['Origin'] == origin]
     if not filtered_df.empty:
-        cheapest_freight = filtered_df.loc[filtered_df['Freight Rate (USD)'].idxmin()]
-        st.success(f"The cheapest freight option from {origin} to {destination} is:")
-        st.json(cheapest_freight.to_dict())
+        st.write(f"Available freight options from {origin}:")
+        for _, row in filtered_df.iterrows():
+            st.markdown(f"""
+            <div class="freight-card">
+                <h3>{row['Destination']}</h3>
+                <p><strong>Carrier:</strong> {row['Carrier']}</p>
+                <p><strong>Freight Rate:</strong> ${row['Freight Rate (USD)']}</p>
+                <p><strong>Departure Time:</strong> {row['Departure Time']}</p>
+                <p><strong>Transit Time:</strong> {row['Transit Time (Hours)']} hours</p>
+                <p><strong>Freight Type:</strong> {row['Freight Type']}</p>
+            </div>
+            """, unsafe_allow_html=True)
     else:
-        st.warning("No direct routes found for the selected origin and destination.")
+        st.warning(f"No freight options found from {origin}.")
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Section Divider
