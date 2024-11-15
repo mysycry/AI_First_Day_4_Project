@@ -102,11 +102,12 @@ def apply_custom_css():
         }
 
         .freight-cards-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            padding: 1rem;
-            justify-content: flex-start;
+           display: inline-flex;
+           flex-direction: row;
+           flex-wrap: nowrap;
+           justify-content: flex-start;
+           align-items: stretch;
+           align-content: normal;
         }
 
         .freight-card {
