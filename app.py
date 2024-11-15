@@ -102,25 +102,25 @@ def apply_custom_css():
         }
 
         .freight-cards-container {
-            display: flex;
-            flex-direction: row;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1rem;
             padding: 1rem;
-            overflow-x: auto;
             width: 100%;
-            flex-wrap: nowrap;
         }
 
         .freight-card {
-            background: linear-gradient(135deg, #000000, #8B0000);
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
             border-radius: 10px;
-            padding: 1rem;
+            padding: 1.5rem;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
             color: #F5F5F5;
-            width: 300px;
-            height: 300px;
-            flex: 0 0 auto;
+            height: auto;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .freight-card:hover {
@@ -129,14 +129,33 @@ def apply_custom_css():
         }
 
         .freight-card h3 {
-            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
             color: #FFFFFF;
         }
 
         .freight-card p {
-            margin: 0.25rem 0;
+            margin: 0.5rem 0;
             color: #F5F5F5;
-            opacity: 0.9;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+        .freight-info {
+            display: flex;
+            align-items: center;
+            margin: 0.5rem 0;
+        }
+
+        .freight-info-label {
+            min-width: 120px;
+            color: #B0C4DE;
+            font-weight: 500;
+        }
+
+        .freight-info-value {
+            color: #FFFFFF;
+            font-weight: 600;
         }
     </style>
     """, unsafe_allow_html=True)
@@ -179,11 +198,26 @@ if origin:
             st.markdown(f"""
                 <div class="freight-card">
                     <h3>{row['Destination']}</h3>
-                    <p><strong>Carrier:</strong> {row['Carrier']}</p>
-                    <p><strong>Freight Rate:</strong> ${row['Freight Rate (USD)']}</p>
-                    <p><strong>Departure Time:</strong> {row['Departure Time']}</p>
-                    <p><strong>Transit Time:</strong> {row['Transit Time (Hours)']} hours</p>
-                    <p><strong>Freight Type:</strong> {row['Freight Type']}</p>
+                    <div class="freight-info">
+                        <span class="freight-info-label">Carrier:</span>
+                        <span class="freight-info-value">{row['Carrier']}</span>
+                    </div>
+                    <div class="freight-info">
+                        <span class="freight-info-label">Freight Rate:</span>
+                        <span class="freight-info-value">${row['Freight Rate (USD)']}</span>
+                    </div>
+                    <div class="freight-info">
+                        <span class="freight-info-label">Departure:</span>
+                        <span class="freight-info-value">{row['Departure Time']}</span>
+                    </div>
+                    <div class="freight-info">
+                        <span class="freight-info-label">Transit Time:</span>
+                        <span class="freight-info-value">{row['Transit Time (Hours)']} hours</span>
+                    </div>
+                    <div class="freight-info">
+                        <span class="freight-info-label">Type:</span>
+                        <span class="freight-info-value">{row['Freight Type']}</span>
+                    </div>
                 </div>
             """, unsafe_allow_html=True)
         # Close the container
