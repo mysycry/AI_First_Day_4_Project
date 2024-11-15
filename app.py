@@ -105,15 +105,12 @@ def apply_custom_css():
     background: linear-gradient(135deg, #000000, #8B0000);
     border-radius: 10px;
     padding: 1rem;
-    margin-bottom: 1rem;
-    margin-right: 1rem; /* Added margin for spacing between cards */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     color: #F5F5F5;
-    width: 300px; /* Fixed width */
-    height: 300px; /* Same as width for square shape */
-    display: inline-block; /* Allow cards to sit side by side */
-    vertical-align: top; /* Align tops of cards */
+    width: 300px;
+    height: 300px;
+    flex-shrink: 0; /* Prevents cards from shrinking */
 }
 
 .freight-card:hover {
@@ -132,12 +129,13 @@ def apply_custom_css():
     opacity: 0.9;
 }
 
-/* Optional: Container for better card organization */
 .freight-cards-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+    flex-direction: row; /* Forces horizontal layout */
+    gap: 1rem; /* Space between cards */
     padding: 1rem;
+    overflow-x: auto; /* Allows horizontal scrolling if needed */
+    width: 100%;
 }
     </style>
     """, unsafe_allow_html=True)
