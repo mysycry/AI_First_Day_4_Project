@@ -103,27 +103,10 @@ def apply_custom_css():
 
         .freight-cards-container {
             display: flex;
-            flex-direction: row;
+            flex-wrap: wrap;
             gap: 1rem;
             padding: 1rem;
-            overflow-x: auto;
-            width: 100%;
-            flex-wrap: nowrap;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary-color) transparent;
-        }
-
-        .freight-cards-container::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .freight-cards-container::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .freight-cards-container::-webkit-scrollbar-thumb {
-            background-color: var(--primary-color);
-            border-radius: 4px;
+            justify-content: flex-start;
         }
 
         .freight-card {
@@ -133,12 +116,30 @@ def apply_custom_css():
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
             color: #F5F5F5;
-            width: 300px;
-            height: 300px;
+            width: calc(25% - 1rem);
+            aspect-ratio: 1 / 1;
             flex: 0 0 auto;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+        }
+
+        @media (max-width: 1200px) {
+            .freight-card {
+                width: calc(33.33% - 1rem);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .freight-card {
+                width: calc(50% - 1rem);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .freight-card {
+                width: 100%;
+            }
         }
 
         .freight-card:hover {
