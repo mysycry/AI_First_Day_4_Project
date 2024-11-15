@@ -101,30 +101,31 @@ def apply_custom_css():
             padding: 2rem 0;
         }
 
-        .freight-card {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            color: #000000; /* Added black text color for all content */
-        }
+.freight-card {
+    background: linear-gradient(135deg, #000000, #8B0000); /* Gradient from black to dark red */
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    color: #F5F5F5; /* Off-white text color for all content */
+}
 
-        .freight-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
+.freight-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
 
-        .freight-card h3 {
-            margin-bottom: 0.5rem;
-            color: #000000; /* Changed heading color to black */
-        }
+.freight-card h3 {
+    margin-bottom: 0.5rem;
+    color: #FFFFFF; /* Pure white for headers to stand out */
+}
 
-        .freight-card p {
-            margin: 0.25rem 0;
-            color: #000000; /* Added black color explicitly for paragraphs */
-         }
+.freight-card p {
+    margin: 0.25rem 0;
+    color: #F5F5F5; /* Off-white for paragraph text */
+    opacity: 0.9; /* Slightly transparent for better readability */
+}
     </style>
     """, unsafe_allow_html=True)
 
