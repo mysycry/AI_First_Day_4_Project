@@ -102,13 +102,18 @@ def apply_custom_css():
         }
 
 .freight-card {
-    background: linear-gradient(135deg, #000000, #8B0000); /* Gradient from black to dark red */
+    background: linear-gradient(135deg, #000000, #8B0000);
     border-radius: 10px;
     padding: 1rem;
     margin-bottom: 1rem;
+    margin-right: 1rem; /* Added margin for spacing between cards */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
-    color: #F5F5F5; /* Off-white text color for all content */
+    color: #F5F5F5;
+    width: 300px; /* Fixed width */
+    height: 300px; /* Same as width for square shape */
+    display: inline-block; /* Allow cards to sit side by side */
+    vertical-align: top; /* Align tops of cards */
 }
 
 .freight-card:hover {
@@ -118,13 +123,21 @@ def apply_custom_css():
 
 .freight-card h3 {
     margin-bottom: 0.5rem;
-    color: #FFFFFF; /* Pure white for headers to stand out */
+    color: #FFFFFF;
 }
 
 .freight-card p {
     margin: 0.25rem 0;
-    color: #F5F5F5; /* Off-white for paragraph text */
-    opacity: 0.9; /* Slightly transparent for better readability */
+    color: #F5F5F5;
+    opacity: 0.9;
+}
+
+/* Optional: Container for better card organization */
+.freight-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
 }
     </style>
     """, unsafe_allow_html=True)
