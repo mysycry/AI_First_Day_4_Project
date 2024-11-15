@@ -63,7 +63,7 @@ def apply_custom_css():
         }
 
         .section-divider::before {
-            content: '●';
+            content: '🚢✈️🚛 🚢✈️🚛 🚢✈️🚛 🚢✈️🚛 🚢✈️🚛';
             position: absolute;
             left: 50%;
             top: 50%;
