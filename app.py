@@ -17,7 +17,70 @@ st.set_page_config(page_title="FreightMate™ - Your Freight Comparison Speciali
 def apply_custom_css():
     st.markdown("""
     <style>
-        /* ... (the rest of the CSS remains the same) ... */
+        :root {
+            --primary-color: #1E88E5;
+            --secondary-color: #FFC107;
+            --text-color: #333333;
+            --background-color: #F5F5F5;
+            --card-bg: #FFFFFF;
+            --button-color: #1E88E5;
+            --button-text-color: #FFFFFF;
+            --button-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .hero-header {
+            background-color: var(--primary-color);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-title {
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 0;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stButton > button {
+            background-color: var(--button-color);
+            color: var(--button-text-color);
+            border: none;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            box-shadow: var(--button-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .stButton > button:hover {
+            opacity: 0.9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .stTextInput > div > div > input {
+            border-radius: 5px;
+        }
+
+        .stSelectbox > div > div > select {
+            border-radius: 5px;
+        }
     </style>
     """, unsafe_allow_html=True)
 
