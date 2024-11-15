@@ -101,42 +101,43 @@ def apply_custom_css():
             padding: 2rem 0;
         }
 
-.freight-card {
-    background: linear-gradient(135deg, #000000, #8B0000);
-    border-radius: 10px;
-    padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    color: #F5F5F5;
-    width: 300px;
-    height: 300px;
-    flex-shrink: 0; /* Prevents cards from shrinking */
-}
+        .freight-cards-container {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            padding: 1rem;
+            overflow-x: auto;
+            width: 100%;
+            flex-wrap: nowrap;
+        }
 
-.freight-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-}
+        .freight-card {
+            background: linear-gradient(135deg, #000000, #8B0000);
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            color: #F5F5F5;
+            width: 300px;
+            height: 300px;
+            flex: 0 0 auto;
+        }
 
-.freight-card h3 {
-    margin-bottom: 0.5rem;
-    color: #FFFFFF;
-}
+        .freight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
 
-.freight-card p {
-    margin: 0.25rem 0;
-    color: #F5F5F5;
-    opacity: 0.9;
-}
+        .freight-card h3 {
+            margin-bottom: 0.5rem;
+            color: #FFFFFF;
+        }
 
-.freight-cards-container {
-    display: flex;
-    flex-direction: row; /* Forces horizontal layout */
-    gap: 1rem; /* Space between cards */
-    padding: 1rem;
-    overflow-x: auto; /* Allows horizontal scrolling if needed */
-    width: 100%;
-}
+        .freight-card p {
+            margin: 0.25rem 0;
+            color: #F5F5F5;
+            opacity: 0.9;
+        }
     </style>
     """, unsafe_allow_html=True)
 
@@ -172,17 +173,21 @@ if origin:
     filtered_df = df[df['Origin'] == origin]
     if not filtered_df.empty:
         st.write(f"Available freight options from {origin}:")
+        # Start the container for cards
+        st.markdown('<div class="freight-cards-container">', unsafe_allow_html=True)
         for _, row in filtered_df.iterrows():
             st.markdown(f"""
-            <div class="freight-card">
-                <h3>{row['Destination']}</h3>
-                <p><strong>Carrier:</strong> {row['Carrier']}</p>
-                <p><strong>Freight Rate:</strong> ${row['Freight Rate (USD)']}</p>
-                <p><strong>Departure Time:</strong> {row['Departure Time']}</p>
-                <p><strong>Transit Time:</strong> {row['Transit Time (Hours)']} hours</p>
-                <p><strong>Freight Type:</strong> {row['Freight Type']}</p>
-            </div>
+                <div class="freight-card">
+                    <h3>{row['Destination']}</h3>
+                    <p><strong>Carrier:</strong> {row['Carrier']}</p>
+                    <p><strong>Freight Rate:</strong> ${row['Freight Rate (USD)']}</p>
+                    <p><strong>Departure Time:</strong> {row['Departure Time']}</p>
+                    <p><strong>Transit Time:</strong> {row['Transit Time (Hours)']} hours</p>
+                    <p><strong>Freight Type:</strong> {row['Freight Type']}</p>
+                </div>
             """, unsafe_allow_html=True)
+        # Close the container
+        st.markdown('</div>', unsafe_allow_html=True)
     else:
         st.warning(f"No freight options found from {origin}.")
 st.markdown('</div>', unsafe_allow_html=True)
